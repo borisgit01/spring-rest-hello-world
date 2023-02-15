@@ -45,7 +45,8 @@ public class BookControllerRestTemplateTest {
                 .withBasicAuth("user", "password")
                 .getForEntity("/books/1", String.class);
         printJSON(response);
-        assertEquals(MediaType.APPLICATION_JSON_UTF8, response.getHeaders().getContentType());
+        //assertEquals(MediaType.APPLICATION_JSON_UTF8, response.getHeaders().getContentType());
+        assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals(HttpStatus.OK, response.getStatusCode());
         JSONAssert.assertEquals(expected, response.getBody(), false);
     }
@@ -56,7 +57,8 @@ public class BookControllerRestTemplateTest {
         ResponseEntity<String> response = restTemplate
                 .getForEntity("/books/1", String.class);
         printJSON(response);
-        assertEquals(MediaType.APPLICATION_JSON_UTF8, response.getHeaders().getContentType());
+        //assertEquals(MediaType.APPLICATION_JSON_UTF8, response.getHeaders().getContentType());
+        assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         JSONAssert.assertEquals(expected, response.getBody(), false);
     }

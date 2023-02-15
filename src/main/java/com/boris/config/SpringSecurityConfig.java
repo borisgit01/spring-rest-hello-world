@@ -12,10 +12,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         System.out.println("configure with AuthenticationManagerBuilder");
+        String[] roles = {"CHIEF", "BORG"};
         auth.inMemoryAuthentication()
                 .withUser("user").password("{noop}password").roles("USER")
                 .and()
-                .withUser("admin").password("{noop}password").roles("USER", "ADMIN");
+                .withUser("admin").password("{noop}password").roles("USER", "ADMIN")
+                .and()
+                .withUser("boris").password("{noop}password").roles(roles);
     }
 
     // Secure the endpoins with HTTP Basic authentication
@@ -27,7 +30,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/books/**").hasRole("USER")
+                //.antMatchers(HttpMethod.GET, "/books/**").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "/books/**").hasRole("BORG")
                 .antMatchers(HttpMethod.POST, "/books").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/books/**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.PATCH, "/books/**").hasRole("ADMIN")
